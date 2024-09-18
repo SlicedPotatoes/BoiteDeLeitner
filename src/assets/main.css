@@ -1,0 +1,15 @@
+@import './base.css';
+
+input,
+button {
+  border-radius: 0.5rem;
+  border: solid #404040 1px;
+  background-color: #1f1f1f;
+  padding: 0.5rem;
+  color: white;
+}
+
+button:hover {
+  background-color: #181818;
+  cursor: pointer;
+}
