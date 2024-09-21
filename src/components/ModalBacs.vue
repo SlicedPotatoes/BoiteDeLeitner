@@ -8,12 +8,12 @@
       <div class="modal-body">
         <div class="container-flex">
           <div class="container-input">
-            <span>Nom</span>
-            <input v-model="form.nom" type="text" placeholder="Saisir le nom..." />
+            <span>Frequence</span>
+            <input v-model="form.frequence" type="number" placeholder="Saisir la frequence..." />
           </div>
           <div class="container-input">
-            <span>Module</span>
-            <input v-model="form.module" type="text" placeholder="Saisir le module..." />
+            <span>Prochaine date</span>
+            <input v-model="form.nextdate" type="date" />
           </div>
           <button @click="clickBtn">Valider</button>
         </div>
@@ -24,7 +24,7 @@
 
 <script setup>
 import { watch, ref, computed, getCurrentInstance } from "vue";
-import { addDeck, updateDeck } from "@/api";
+import { addBac, updateBac } from "@/api";
 
 const { proxy } = getCurrentInstance();
 
@@ -46,11 +46,10 @@ const emit = defineEmits(["update:isOpen"]);
 
 // Déclaration des variable reactive
 const isModalOpen = ref(props.isOpen);
-
 const isUpdate = ref(props.modalData.isUpdate);
 const form = ref({
-  nom: "",
-  module: "",
+  frequence: "",
+  nextdate: "",
 });
 
 // Synchroniser les variable reactive avec la prop
@@ -65,17 +64,17 @@ watch(
   (newValue) => {
     isUpdate.value = newValue.isUpdate;
     if (newValue.index != -1) {
-      let deck = proxy.$decks[newValue.index];
-      form.value = { nom: deck.nom, module: deck.module };
+      let b = proxy.$bacs[newValue.index];
+      form.value = { frequence: b.frequence, nextdate: b.nextdate };
     } else {
-      form.value = { nom: "", module: "" };
+      form.value = { frequence: "", nextdate: "" };
     }
   },
   { immediate: true }
 );
 
 const computedTitle = computed(() => {
-  return (isUpdate.value ? "Modifier" : "Ajouter") + " un deck";
+  return (isUpdate.value ? "Modifier" : "Ajouter") + " un bac";
 });
 
 // Fonction pour fermer la modal
@@ -85,23 +84,21 @@ const closeModal = () => {
 // Fonction ClickBtn
 const clickBtn = () => {
   if (isUpdate.value) {
-    _updateDeck();
+    update();
   } else {
-    _addDeck();
+    add();
   }
   closeModal();
 };
 // Fonction pour ajouter un deck
-const _addDeck = async () => {
-  let d = await addDeck({ nom: form.value.nom, module: form.value.module });
-  proxy.$decks.push(d);
+const add = async () => {
+  let b = await addBac({ frequence: form.value.frequence, nextdate: form.value.nextdate });
+  proxy.$bacs.push(b);
 };
 // Fonction pour modifier un deck
-const _updateDeck = async () => {
-  let cartes = proxy.$decks[props.modalData.index].cartes;
-  let d = await updateDeck(proxy.$decks[props.modalData.index].iddeck, { nom: form.value.nom, module: form.value.module });
-  d.cartes = cartes;
-  proxy.$decks[props.modalData.index] = d;
+const update = async () => {
+  let b = await updateBac(proxy.$bacs[props.modalData.index].idbacs, { frequence: form.value.frequence, nextdate: form.value.nextdate });
+  proxy.$bacs[props.modalData.index] = b;
 };
 </script>
 

@@ -2,7 +2,7 @@
   <div class="topnav">
     <a :class="{ active: $currPage.value == 'home' }" @click="$currPage.value = 'home'">Home</a>
     <a :class="{ active: $currPage.value == 'decks' }" @click="$currPage.value = 'decks'">Deck Management</a>
-    <a :class="{ active: $currPage.value == 'test' }" @click="$currPage.value = 'test'">Test</a>
+    <a :class="{ active: $currPage.value == 'bacs' }" @click="$currPage.value = 'bacs'">Bacs Magagement</a>
   </div>
 </template>
 

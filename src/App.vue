@@ -11,6 +11,8 @@ import { computed, getCurrentInstance } from "vue";
 import Topbar from "./components/Topbar.vue";
 
 import DeckManagement from "./pages/DeckManagement.vue";
+import CardManagement from "./pages/CardManagement.vue";
+import BacsManagement from "./pages/BacsManagement.vue";
 
 const { proxy } = getCurrentInstance();
 
@@ -20,6 +22,10 @@ const currentPageComponent = computed(() => {
       return null;
     case "decks":
       return DeckManagement;
+    case "cards":
+      return CardManagement;
+    case "bacs":
+      return BacsManagement;
     default:
       return null;
   }
