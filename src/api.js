@@ -74,36 +74,9 @@ export const deleteCard = async (cardId) => {
   }
 };
 
-export const getBacs = async () => {
+export const getDayCards = async () => {
   try {
-    const response = await axios.get(`${BASE_URL}/bacs`);
-    return response.data;
-  } catch (error) {
-    throw new Error(`Erreur lors de la récupération des données: ${error.message}`);
-  }
-};
-
-export const addBac = async (bac) => {
-  try {
-    const response = await axios.post(`${BASE_URL}/bac`, bac);
-    return response.data;
-  } catch (error) {
-    throw new Error(`Erreur lors de la récupération des données: ${error.message}`);
-  }
-};
-
-export const updateBac = async (bacId, bac) => {
-  try {
-    const response = await axios.put(`${BASE_URL}/bac/${bacId}`, bac);
-    return response.data;
-  } catch (error) {
-    throw new Error(`Erreur lors de la récupération des données: ${error.message}`);
-  }
-};
-
-export const deleteBac = async (bacId) => {
-  try {
-    const response = await axios.delete(`${BASE_URL}/bac/${bacId}`);
+    const response = await axios.get(`${BASE_URL}/cartesdujour`);
     return response.data;
   } catch (error) {
     throw new Error(`Erreur lors de la récupération des données: ${error.message}`);

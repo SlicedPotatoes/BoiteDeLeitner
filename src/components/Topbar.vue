@@ -2,7 +2,6 @@
   <div class="topnav">
     <a :class="{ active: $currPage.value == 'home' }" @click="$currPage.value = 'home'">Home</a>
     <a :class="{ active: $currPage.value == 'decks' }" @click="$currPage.value = 'decks'">Deck Management</a>
-    <a :class="{ active: $currPage.value == 'bacs' }" @click="$currPage.value = 'bacs'">Bacs Magagement</a>
   </div>
 </template>
 
@@ -10,11 +9,7 @@
 
 <style scoped>
 .topnav {
-  position: sticky;
-  top: 0;
-  z-index: 1000;
   background-color: #1f1f1f;
-  overflow: hidden;
   border-bottom: solid #404040 1px;
 }
 .topnav a {

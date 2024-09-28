@@ -15,11 +15,15 @@
             <span>Réponse</span>
             <input v-model="form.reponse" type="text" placeholder="Saisir la réponse..." />
           </div>
-          <div class="container-input">
+          <div class="container-input" v-if="isUpdate">
             <span>Deck</span>
-            <select v-model="form.iddeck" v-if="isUpdate">
+            <select v-model="form.iddeck">
               <option v-for="d in $decks" :value="d.iddeck">{{ d.nom }}</option>
             </select>
+          </div>
+          <div class="container-input">
+            <span>Date</span>
+            <input v-model="form.nextReponse" type="date" />
           </div>
           <button @click="clickBtn">Valider</button>
         </div>
@@ -31,6 +35,7 @@
 <script setup>
 import { watch, ref, computed, getCurrentInstance } from "vue";
 import { addCard, updateCard } from "@/api";
+import { getDateWithOffset } from "@/globalFunc";
 
 const { proxy } = getCurrentInstance();
 
@@ -57,6 +62,7 @@ const form = ref({
   question: "",
   reponse: "",
   iddeck: -1,
+  nextReponse: getDateWithOffset(new Date(), 0),
 });
 
 const computedTitle = computed(() => {
@@ -83,7 +89,7 @@ const clickBtn = () => {
 };
 // Fonction pour ajouter un deck
 const add = async () => {
-  let c = await addCard({ question: form.value.question, reponse: form.value.reponse, iddeck: form.value.iddeck });
+  let c = await addCard({ question: form.value.question, reponse: form.value.reponse, iddeck: form.value.iddeck, nextReponse: form.value.nextReponse });
 
   console.log(getDeck().cartes);
 
@@ -92,7 +98,7 @@ const add = async () => {
 };
 // Fonction pour modifier un deck
 const update = async () => {
-  let c = await updateCard(getDeck().cartes[props.modalData.index].idcarte, { question: form.value.question, reponse: form.value.reponse, iddeck: form.value.iddeck });
+  let c = await updateCard(getDeck().cartes[props.modalData.index].idcarte, { question: form.value.question, reponse: form.value.reponse, iddeck: form.value.iddeck, nextReponse: form.value.nextReponse });
 
   if (c.iddeck != getDeck().iddeck) {
     getDeck().cartes.splice(props.modalData.index, 1);
@@ -118,9 +124,9 @@ watch(
     isUpdate.value = newValue.isUpdate;
     if (newValue.index != -1) {
       let card = getDeck().cartes[newValue.index];
-      form.value = { question: card.question, reponse: card.reponse };
+      form.value = { question: card.question, reponse: card.reponse, nextReponse: card.nextReponse };
     } else {
-      form.value = { question: "", reponse: "", iddeck: -1 };
+      form.value = { question: "", reponse: "", iddeck: -1, nextReponse: getDateWithOffset(new Date(), 0) };
     }
 
     form.value.iddeck = getDeck().iddeck;

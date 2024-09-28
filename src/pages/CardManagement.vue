@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>{{ computedTitle }}</h1>
+    <div class="titlePage">{{ computedTitle }}</div>
     <table>
       <thead>
         <tr>
@@ -13,7 +13,7 @@
               <IconHidde class="icon" @click="toggleAnswers(true)" />
             </div>
           </th>
-          <th>Bac</th>
+          <th>Next Date</th>
           <th>
             <div class="actionCol" style="justify-content: space-between"><span style="font-weight: bold">Action</span> <IconPlus class="icon" @click="openAddModalDeck" /></div>
           </th>
@@ -29,7 +29,7 @@
               <div class="answer" v-html="c.reponse" />
             </div>
           </td>
-          <td>{{ c.idbacs }}</td>
+          <td style="width: 100px">{{ c.nextReponse }}</td>
           <td>
             <div class="actionCol">
               <IconEdit class="icon" @click="openUpdateModalCard(index)" />
@@ -83,7 +83,7 @@ const openUpdateModalCard = (index) => {
 };
 // Fonction pour supprimer une carte
 const _deleteCard = (index) => {
-  if (window.confirm("Voulez-vous vraiment supprimer ce deck ?")) {
+  if (window.confirm("Voulez-vous vraiment supprimer cette carte ?")) {
     deleteCard(getDeck().cartes[index].idcarte).then(() => {
       getDeck().cartes.splice(index, 1);
       getDeck().nbcarte--;
